@@ -1,10 +1,9 @@
 <template>
   <div class="upgrades">
-    <div 
-      v-for="(upgrade, index) in upgrades" 
-      :key="index" 
-      class="upgrade"
-    >
+    <div
+      v-for="(upgrade, index) in upgrades"
+      :key="index"
+      class="upgrade">
       <button :class="`button ${upgrade.disabled ? 'disabled' : ''}`" @click="() => buyUpgrade(index)">
         {{ upgrade.name }} {{ upgrade.disabled ? `(lvl: ${upgrade.unlocksAt})` : '' }}
       </button>
@@ -18,70 +17,72 @@
 
 <script>
 export default {
-  name: 'upgrades',
+  name: "upgrades",
   computed: {
-    upgrades () {
+    upgrades() {
       return this.$store.getters.availableUpgrades;
     }
   },
   methods: {
-    buyUpgrade (index) {
-      this.$store.commit('buyUpgrade', {
+    buyUpgrade(index) {
+      this.$store.commit("buyUpgrade", {
         index,
         amount: 1
       });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
-  .upgrades {
-    background-color: #222;
-    padding: 25px;
+@import "../style/variables.scss";
 
-    .upgrade {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0px -15px 15px;
+.upgrades {
+  background-color: #222;
+  padding: 25px;
 
-      .button,
-      .cost,
-      .quantity {
-        color: #FFF;
-        margin: 0 15px;
-      }
+  .upgrade {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px -15px 15px;
 
-      .details {
-        flex: 1 1 100%;
-      }
+    .button,
+    .cost,
+    .quantity {
+      color: #fff;
+      margin: 0 15px;
+    }
 
-      .button {
-        appearance: none;
-        border: none;
-        outline: none;
-        background: none;
+    .details {
+      flex: 1 1 100%;
+    }
 
-        display: inline-block;
-        min-width: 300px;
-        padding: 15px 25px;
-        background-color: #28A484;
+    .button {
+      appearance: none;
+      border: none;
+      outline: none;
+      background: none;
 
-        color: #FFF;
-        font-size: 20px;
-        font-weight: 700;
-        text-align: center;
-        text-transform: uppercase;
+      display: inline-block;
+      min-width: 300px;
+      padding: 15px 25px;
+      background-color: $startup-bg;
 
-        cursor: pointer;
+      color: #fff;
+      font-size: 20px;
+      font-weight: map-get($font-weights, bold);
+      text-align: center;
+      text-transform: uppercase;
 
-        &.disabled {
-          color: #222;
-          background-color: #CCC;
-          pointer-events: none;
-        }
+      cursor: pointer;
+
+      &.disabled {
+        color: $dark-gray-font;
+        background-color: $disabled;
+        pointer-events: none;
       }
     }
   }
+}
 </style>
