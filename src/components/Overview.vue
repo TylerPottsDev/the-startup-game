@@ -10,25 +10,27 @@
 
 <script>
 export default {
-  name: 'overview',
+  name: "overview",
   computed: {
-    bytes () {
+    bytes() {
       return Math.round(this.$store.state.bytes);
     },
-    bps () {
-      return (this.$store.state.bps).toFixed(1);
+    bps() {
+      return this.$store.state.bps.toFixed(1);
     },
-    level () {
+    level() {
       return this.$store.state.player.level;
     },
-    bytesUntilLevelUp () {
+    bytesUntilLevelUp() {
       return this.$store.getters.bytesUntilLevelUp;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
+@import "../style/variables.scss";
+
 .overview {
   display: flex;
   flex-direction: column;
@@ -36,9 +38,9 @@ export default {
   padding: 25px;
 
   h3 {
-    color: #222;
+    color: $dark-gray-font;
     font-size: 24px;
-    font-weight: 400;
+    font-weight: map-get($font-weights, normal);
     margin-bottom: 15px;
   }
 
@@ -47,12 +49,12 @@ export default {
     min-width: 200px;
     max-width: fit-content;
     padding: 15px 25px;
-    background-color: #28A484;
+    background-color: $startup-bg;
     border-radius: 8px;
 
-    color: #FFF;
+    color: #fff;
     font-size: 60px;
-    font-weight: 900;
+    font-weight: map-get($font-weights, boldest);
     text-align: center;
     margin-bottom: 30px;
   }
@@ -62,9 +64,9 @@ export default {
   .next-level {
     margin-bottom: 15px;
 
-    color: #222;
+    color: $dark-gray-font;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: map-get($font-weights, medium);
     font-style: italic;
     text-align: center;
   }
