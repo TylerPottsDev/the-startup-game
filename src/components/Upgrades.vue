@@ -1,11 +1,12 @@
 <template>
   <div class="upgrades">
-    <div
-      v-for="(upgrade, index) in upgrades"
-      :key="index"
-      class="upgrade">
-      <button :class="`button ${upgrade.disabled ? 'disabled' : ''}`" @click="() => buyUpgrade(index)">
-        {{ upgrade.name }} {{ upgrade.disabled ? `(lvl: ${upgrade.unlocksAt})` : '' }}
+    <div v-for="(upgrade, index) in upgrades" :key="index" class="upgrade">
+      <button
+        :class="`button ${upgrade.disabled ? 'disabled' : ''}`"
+        @click="buyUpgrade($event, index)"
+      >
+        {{ upgrade.name }}
+        {{ upgrade.disabled ? `(lvl: ${upgrade.unlocksAt})` : '' }}
       </button>
       <div class="details">
         <div class="cost">Cost: {{ upgrade.cost }}</div>
@@ -17,25 +18,28 @@
 
 <script>
 export default {
-  name: "upgrades",
+  name: 'upgrades',
   computed: {
     upgrades() {
       return this.$store.getters.availableUpgrades;
     }
   },
   methods: {
-    buyUpgrade(index) {
-      this.$store.commit("buyUpgrade", {
-        index,
-        amount: 1
-      });
+    buyUpgrade(event, index) {
+      // console.log(event); // shows that event is a MouseEvent
+      if (event.screenX > 0) {
+        this.$store.commit('buyUpgrade', {
+          index,
+          amount: 1
+        });
+      }
     }
   }
 };
 </script>
 
 <style lang="scss">
-@import "../style/variables.scss";
+@import '../style/variables.scss';
 
 .upgrades {
   background-color: #222;
