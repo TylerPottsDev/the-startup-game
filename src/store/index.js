@@ -3,6 +3,16 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const timestamps = [
+  {
+    length: 1000,
+    previous: 0,
+    action: ({commit}) => {
+      commit('bytesPerSecond');
+    }
+  }
+];
+
 export default new Vuex.Store({
   state: {
     bytes: 0,
@@ -43,6 +53,22 @@ export default new Vuex.Store({
       }
     ]
   },
+  actions: {
+    update: ({commit, getters}, payload) => {
+      let now = payload.timestamp;
+
+      timestamps.forEach(timestamp => {
+        if (now - timestamp.previous >= timestamp.length) {
+          timestamp.previous = now;
+          timestamp.action(context);
+        }
+      });
+      
+      if (getters.bytesUntilLevelUp <= 0) {
+        commit('levelUp');
+      }
+    }
+  },
   mutations: {
     incrementBytes: (state, increment) => {
       state.bytes += increment;
@@ -65,8 +91,8 @@ export default new Vuex.Store({
       state.bps = 0;
       state.upgrades.forEach(upgrade => {
         state.bps += (upgrade.bps * upgrade.quantity);
-        state.bytes += (upgrade.bps * upgrade.quantity) / 60;
-        state.totalBytes += (upgrade.bps * upgrade.quantity) / 60;
+        state.bytes += (upgrade.bps * upgrade.quantity);
+        state.totalBytes += (upgrade.bps * upgrade.quantity);
       });
     }
   },
