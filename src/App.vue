@@ -19,16 +19,10 @@ export default {
     coding () {
       this.$store.commit('incrementBytes', this.$store.state.bpk);
     },
-    loop () {
+    loop (timestamp) {
       // GAME LOOP
-      this.$store.commit('bytesPerSecond');
-      this.levelManager();
+      this.$store.dispatch('update', {timestamp});
       requestAnimationFrame(this.loop);
-    },
-    levelManager () {
-      if (this.$store.getters.bytesUntilLevelUp <= 0) {
-        this.$store.commit('levelUp');
-      }
     }
   },
   created () {
